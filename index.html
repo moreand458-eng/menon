@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>⏤͟͟͞𝐌𝒆𝑛𝘰𝒏💗⩇᪱:⩇</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --night: #0d0b1e;
+      --night2: #1b1436;
+      --plum: #3b2158;
+      --rose: #e6a6c6;
+      --gold: #e7c88f;
+      --pearl: #f8f2ef;
+      --glass: rgba(255, 255, 255, 0.06);
+      --glass-b: rgba(255, 255, 255, 0.14);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background: radial-gradient(ellipse at top, var(--night2), var(--night) 70%);
+      color: var(--pearl);
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+    .display { font-family: 'Aref Ruqaa', serif; }
+    ::selection { background: var(--rose); color: var(--night); }
+
+    /* ---------- Scene layers ---------- */
+    #sky-canvas, #particle-canvas {
+      position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
+    }
+    .moon {
+      position: fixed; top: 6%; left: 8%; width: 110px; height: 110px; border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #fff8e7, var(--gold) 60%, #c9a56a 100%);
+      box-shadow: 0 0 60px 20px rgba(231, 200, 143, 0.35), 0 0 120px 60px rgba(231, 200, 143, 0.15);
+      z-index: 0; animation: moonFloat 8s ease-in-out infinite;
+    }
+    @keyframes moonFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+
+    .mouse-trail-heart {
+      position: fixed; pointer-events: none; z-index: 9999; font-size: 14px; opacity: 0.9;
+      animation: trailFade 1s ease-out forwards;
+    }
+    @keyframes trailFade { to { transform: translateY(-40px) scale(0.4); opacity: 0; } }
+
+    /* ---------- Intro ---------- */
+    #intro {
+      position: fixed; inset: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: center; flex-direction: column;
+      background: radial-gradient(ellipse at center, var(--night2), var(--night));
+      transition: opacity 1.4s ease, visibility 0s 1.4s; text-align: center; padding: 20px;
+    }
+    #intro.hidden { opacity: 0; visibility: hidden; }
+    #intro h1 {
+      font-size: clamp(22px,4vw,36px); font-weight: 400; color: var(--rose);
+      text-shadow: 0 0 25px rgba(230,166,198,0.6); animation: softIn 2.2s ease forwards; letter-spacing: 1px;
+    }
+    #intro span.heart-pulse { display: inline-block; animation: pulse 1.6s ease-in-out infinite; }
+    @keyframes softIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.25); } }
+
+    /* ---------- Layout ---------- */
+    main { position: relative; z-index: 1; }
+    section {
+      min-height: 100vh; padding: 80px 6vw; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; position: relative; text-align: center;
+    }
+    .glass {
+      background: var(--glass); border: 1px solid var(--glass-b); backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px); border-radius: 24px; box-shadow: 0 8px 40px rgba(0,0,0,0.35);
+    }
+    .eyebrow { font-size: 13px; letter-spacing: 4px; color: var(--gold); opacity: 0.85; margin-bottom: 14px; text-transform: uppercase; }
+    .section-title {
+      font-family: 'Aref Ruqaa', serif; font-size: clamp(28px,5vw,48px); color: var(--pearl);
+      margin-bottom: 10px; text-shadow: 0 0 30px rgba(230,166,198,0.3);
+    }
+    .section-sub {
+      max-width: 640px; color: rgba(248,242,239,0.75); font-size: 15px; line-height: 2; margin-bottom: 44px;
+    }
+
+    /* ---------- Hero ---------- */
+    #hero .hero-title {
+      font-family: 'Aref Ruqaa', serif; font-size: clamp(30px,7vw,64px);
+      background: linear-gradient(120deg, var(--gold), var(--rose) 60%, #fff); -webkit-background-clip: text;
+      background-clip: text; color: transparent; filter: drop-shadow(0 0 30px rgba(230,166,198,0.4));
+      margin-bottom: 26px; animation: heroIn 1.6s ease forwards;
+    }
+    @keyframes heroIn { from { opacity: 0; letter-spacing: 12px; } to { opacity: 1; letter-spacing: 2px; } }
+    #hero p.hero-text {
+      max-width: 620px; font-size: 16px; line-height: 2.1; color: rgba(248,242,239,0.85); margin-bottom: 40px;
+    }
+    .btn {
+      font-family: 'Tajawal', sans-serif; background: linear-gradient(120deg, var(--rose), var(--gold));
+      color: var(--night); border: none; padding: 14px 42px; border-radius: 40px; font-size: 15px;
+      font-weight: 700; cursor: pointer; position: relative; overflow: hidden;
+      transition: transform .3s ease, box-shadow .3s ease; box-shadow: 0 8px 24px rgba(230,166,198,0.25);
+    }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 14px 34px rgba(230,166,198,0.4); }
+    .btn-ghost { background: transparent; border: 1px solid var(--glass-b); color: var(--pearl); box-shadow: none; font-weight: 500; }
+    .ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.5); transform: scale(0); animation: rippleAnim .6s linear; pointer-events: none; }
+    @keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
+    .scroll-hint { position: absolute; bottom: 28px; font-size: 12px; color: rgba(248,242,239,0.5); letter-spacing: 2px; animation: bounce 2s infinite; }
+    @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+
+    /* ---------- Typewriter messages ---------- */
+    #messages .stage { width: min(680px,90vw); min-height: 160px; display: flex; align-items: center; justify-content: center; padding: 40px 30px; }
+    #typewriter-text { font-size: clamp(18px,3vw,24px); line-height: 1.9; color: var(--rose); font-family: 'Aref Ruqaa', serif; }
+    #typewriter-text .cursor { display: inline-block; animation: blink 1s step-end infinite; color: var(--gold); }
+    @keyframes blink { 50% { opacity: 0; } }
+    .msg-counter { margin-top: 18px; font-size: 12px; color: rgba(248,242,239,0.5); letter-spacing: 2px; }
+
+    /* ---------- Poems ---------- */
+    .poem-grid { display: flex; flex-direction: column; gap: 26px; width: min(720px,92vw); }
+    .poem-card { padding: 34px 30px; text-align: right; cursor: pointer; transition: transform .35s ease; }
+    .poem-card:hover { transform: translateY(-4px); }
+    .poem-card h3 { font-family: 'Aref Ruqaa', serif; color: var(--gold); font-size: 20px; margin-bottom: 14px; }
+    .poem-card p {
+      line-height: 2.3; color: rgba(248,242,239,0.85); font-size: 15px; display: -webkit-box;
+      -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; white-space: pre-line;
+    }
+    .poem-card.open p { -webkit-line-clamp: unset; }
+    .poem-card .toggle { margin-top: 12px; font-size: 12px; color: var(--rose); }
+
+    /* ---------- Letters ---------- */
+    .letters-wrap { width: min(720px,92vw); }
+    .letter-nav { display: flex; justify-content: center; gap: 14px; margin-bottom: 26px; flex-wrap: wrap; }
+    .letter-nav button {
+      background: var(--glass); border: 1px solid var(--glass-b); color: var(--pearl);
+      padding: 8px 18px; border-radius: 20px; font-size: 13px; cursor: pointer; font-family: 'Tajawal';
+    }
+    .letter-nav button.active { background: linear-gradient(120deg,var(--rose),var(--gold)); color: var(--night); font-weight: 700; }
+    .letter-box { padding: 40px 34px; text-align: right; min-height: 220px; }
+    .letter-box h3 { font-family: 'Aref Ruqaa', serif; color: var(--gold); margin-bottom: 16px; font-size: 19px; }
+    .letter-box p { line-height: 2.2; font-size: 15px; color: rgba(248,242,239,0.88); white-space: pre-line; }
+
+    /* ---------- Journal ---------- */
+    #journal .journal-card {
+      width: min(560px,90vw); padding: 50px 34px; cursor: pointer; position: relative; transition: transform .3s ease;
+    }
+    #journal .journal-card:hover { transform: scale(1.02); }
+    #journal .journal-card p { font-family: 'Aref Ruqaa', serif; font-size: 19px; line-height: 2; color: var(--rose); min-height: 80px; display: flex; align-items: center; justify-content: center; }
+    #journal .tap-hint { margin-top: 20px; font-size: 12px; color: rgba(248,242,239,0.5); }
+
+    /* ---------- Counter ---------- */
+    .counter-grid { display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; width: min(760px,92vw); }
+    .counter-card { padding: 34px 28px; flex: 1; min-width: 180px; }
+    .counter-num { font-size: clamp(28px,5vw,42px); font-weight: 800; color: var(--gold); font-family: 'Aref Ruqaa', serif; }
+    .counter-label { font-size: 13px; color: rgba(248,242,239,0.7); margin-top: 8px; }
+
+    /* ---------- Wish sky ---------- */
+    #wishsky { position: relative; }
+    .stars-field { position: relative; width: min(800px,94vw); height: 420px; }
+    .wish-star {
+      position: absolute; font-size: 20px; cursor: pointer; background: none; border: none;
+      filter: drop-shadow(0 0 6px rgba(231,200,143,0.7)); animation: twinkle 3s ease-in-out infinite;
+    }
+    @keyframes twinkle { 0%,100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 1; transform: scale(1.25); } }
+    #wish-popup {
+      position: fixed; inset: 0; z-index: 900; display: none; align-items: center; justify-content: center;
+      background: rgba(13,11,30,0.7); backdrop-filter: blur(6px); padding: 20px;
+    }
+    #wish-popup.show { display: flex; }
+    #wish-popup .box { max-width: 420px; padding: 38px 30px; text-align: center; }
+    #wish-popup p { font-family: 'Aref Ruqaa', serif; color: var(--rose); font-size: 18px; line-height: 1.9; margin-bottom: 20px; }
+
+    /* ---------- Heart garden ---------- */
+    #garden { position: relative; overflow: hidden; }
+    .garden-field { position: relative; width: 100%; height: 60vh; min-height: 380px; }
+    .garden-heart { position: absolute; font-size: 22px; pointer-events: none; transition: transform .6s ease, opacity .6s ease; opacity: 0.75; }
+
+    /* ---------- Wish note (اكتبي أمنيتك) ---------- */
+    #note-modal {
+      position: fixed; inset: 0; z-index: 950; display: none; align-items: center; justify-content: center;
+      background: rgba(13,11,30,0.75); backdrop-filter: blur(6px); padding: 20px;
+    }
+    #note-modal.show { display: flex; }
+    .note-box { width: min(480px,94vw); padding: 36px 30px; text-align: center; }
+    .note-box h3 { font-family: 'Aref Ruqaa', serif; color: var(--gold); margin-bottom: 16px; }
+    .note-box textarea {
+      width: 100%; min-height: 140px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-b);
+      border-radius: 14px; color: var(--pearl); padding: 16px; font-family: 'Tajawal'; font-size: 14px;
+      line-height: 1.9; resize: vertical;
+    }
+    .note-box textarea:focus { outline: 1px solid var(--rose); }
+    .note-actions { display: flex; gap: 12px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
+    .note-saved { margin-top: 14px; font-size: 12px; color: var(--gold); display: none; }
+    .close-x { position: absolute; top: 16px; left: 16px; background: none; border: none; color: var(--pearl); font-size: 22px; cursor: pointer; opacity: 0.6; }
+    .note-box, #wish-popup .box { position: relative; }
+
+    /* ---------- Music toggle ---------- */
+    #music-toggle {
+      position: fixed; bottom: 22px; left: 22px; z-index: 800; width: 52px; height: 52px;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      background: var(--glass); border: 1px solid var(--glass-b); backdrop-filter: blur(10px);
+      cursor: pointer; font-size: 20px;
+    }
+    #back-top {
+      position: fixed; bottom: 22px; right: 22px; z-index: 800; padding: 12px 20px;
+      border-radius: 30px; font-size: 12px;
+    }
+
+    /* ---------- Floating hearts / roses / sparkles global ---------- */
+    .float-item { position: fixed; pointer-events: none; z-index: 2; opacity: 0; animation: floatUp linear forwards; }
+    @keyframes floatUp {
+      0% { opacity: 0; transform: translateY(0) translateX(0) rotate(0deg); }
+      10% { opacity: 0.8; }
+      90% { opacity: 0.6; }
+      100% { opacity: 0; transform: translateY(-110vh) translateX(var(--drift,20px)) rotate(360deg); }
+    }
+
+    footer { padding: 60px 20px 100px; text-align: center; color: rgba(248,242,239,0.5); font-size: 13px; position: relative; z-index: 1; }
+    footer .display { color: var(--rose); font-size: 16px; display: block; margin-bottom: 10px; }
+
+    @media(max-width:600px) {
+      .moon { width: 70px; height: 70px; top: 4%; }
+      section { padding: 60px 5vw; }
+      .counter-card { min-width: 140px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Intro splash -->
+<div id="intro">
+  <h1><span class="heart-pulse">💗</span><br>إلى أجمل صدفة دخلت حياتي...</h1>
+</div>
+
+<!-- Background scene -->
+<canvas id="sky-canvas"></canvas>
+<canvas id="particle-canvas"></canvas>
+<div class="moon"></div>
+
+<audio id="bg-music" loop preload="auto">
+  <source src="monon.mp4" type="audio/mp4">
+</audio>
+<button id="music-toggle" title="تشغيل / إيقاف الموسيقى">🎵</button>
+<button id="back-top" class="btn btn-ghost">ارجعي للبداية ↑</button>
+
+<main>
+  <!-- HERO -->
+  <section id="hero">
+    <div class="eyebrow">صُنع خصيصًا من أجل</div>
+    <h1 class="hero-title">⏤͟͟͞𝐌𝒆𝑛𝘰𝒏💗⩇᪱:⩇</h1>
+    <p class="hero-text">
+      بدأت الحكاية من تلميح بسيط في بوست عابر، ورد كان أشبه بابتسامة مخبأة بين الكلمات.
+      لم نكن نعرف وقتها أن كل واحد فينا كان يفهم الآخر أكثر مما يظهر.
+      من يومها، صار اسمك هو الجملة الأولى في كل شيء أكتبه، وصار حضورك دفئًا لا أعرف كيف كانت أيامي قبله.
+      هذا المكان كله لكِ وحدك... كل حرف فيه كُتب وأنتِ في البال.
+    </p>
+    <button class="btn" id="start-btn" onclick="rippleEffect(event); document.getElementById('messages').scrollIntoView({behavior:'smooth'})">اضغطي هنا</button>
+    <div class="scroll-hint">مرري لتكتشفي المزيد ↓</div>
+  </section>
+
+  <!-- MESSAGES (typewriter) -->
+  <section id="messages">
+    <div class="eyebrow">رسائل تُقال بصوت هادئ</div>
+    <h2 class="section-title">كلمات على مهل</h2>
+    <p class="section-sub">كل رسالة هنا كانت يومًا فكرة عابرة، فصارت جملة أردت أن تصلك كما هي.</p>
+    <div class="stage glass">
+      <p id="typewriter-text"></p>
+    </div>
+    <div class="msg-counter" id="msg-counter">١ / ٧٠</div>
+  </section>
+
+  <!-- POEMS -->
+  <section id="poems">
+    <div class="eyebrow">قصائد</div>
+    <h2 class="section-title">حين تصبح الكلمات قليلة</h2>
+    <p class="section-sub">اضغطي على أي قصيدة لتقرأيها كاملة.</p>
+    <div class="poem-grid" id="poem-grid"></div>
+  </section>
+
+  <!-- LETTERS -->
+  <section id="letters">
+    <div class="eyebrow">رسائل</div>
+    <h2 class="section-title">رسائل لم تُرسل من قبل</h2>
+    <p class="section-sub">اختاري رقمًا، وكل رسالة ستأخذك إلى شعور مختلف.</p>
+    <div class="letters-wrap">
+      <div class="letter-nav" id="letter-nav"></div>
+      <div class="letter-box glass" id="letter-box"></div>
+    </div>
+  </section>
+
+  <!-- JOURNAL -->
+  <section id="journal">
+    <div class="eyebrow">دفتر المشاعر</div>
+    <h2 class="section-title">صفحة تُقلب كل مرة</h2>
+    <div class="journal-card glass" id="journal-card" onclick="newJournalEntry()">
+      <p id="journal-text">اضغطي لتقرأي أول سطر</p>
+    </div>
+    <div class="tap-hint">اضغطي على الصفحة لتظهر جملة جديدة</div>
+  </section>
+
+  <!-- COUNTER -->
+  <section id="counter">
+    <div class="eyebrow">عداد</div>
+    <h2 class="section-title">أرقام لا تكفي لتصف شيئًا</h2>
+    <p class="section-sub">لكنها أقرب طريقة أملكها لأقول لكِ كم أنتِ حاضرة في تفكيري.</p>
+    <div class="counter-grid">
+      <div class="counter-card glass"><div class="counter-num" id="c-beats">0</div><div class="counter-label">دقة قلب ❤️</div></div>
+      <div class="counter-card glass"><div class="counter-num" id="c-think">0</div><div class="counter-label">مرة فكرت فيكِ</div></div>
+      <div class="counter-card glass"><div class="counter-num" id="c-miss">0</div><div class="counter-label">مرة اشتقت لكِ</div></div>
+    </div>
+  </section>
+
+  <!-- WISH SKY -->
+  <section id="wishsky">
+    <div class="eyebrow">سماء الأمنيات</div>
+    <h2 class="section-title">لكل نجمة حكاية صغيرة</h2>
+    <p class="section-sub">اضغطي على أي نجمة، ودعيها تهمس لكِ بشيء.</p>
+    <div class="stars-field" id="stars-field"></div>
+  </section>
+
+  <!-- HEART GARDEN -->
+  <section id="garden">
+    <div class="eyebrow">حديقة القلوب</div>
+    <h2 class="section-title">حركي الماوس هنا</h2>
+    <p class="section-sub">كل قلب يظهر هو أثر بسيط لمرورك.</p>
+    <div class="garden-field" id="garden-field"></div>
+  </section>
+
+  <!-- WISH NOTE BUTTON -->
+  <section id="write-wish">
+    <div class="eyebrow">للكتابة وحدها</div>
+    <h2 class="section-title">اكتبي أمنيتك</h2>
+    <p class="section-sub">ما تكتبينه هنا يبقى بينك وبين هذه الصفحة فقط، لا يُرسل لأحد.</p>
+    <button class="btn" onclick="rippleEffect(event); openNoteModal()">اكتبي أمنيتك</button>
+  </section>
+</main>
+
+<footer>
+  <span class="display">⏤͟͟͞𝐌𝒆𝑛𝘰𝒏💗⩇᪱:⩇</span>
+  هذا المكان بُني حرفًا حرفًا من أجلك، وسيبقى كما هو، بانتظارك دائمًا.
+</footer>
+
+<!-- Wish star popup -->
+<div id="wish-popup">
+  <div class="box glass">
+    <button class="close-x" onclick="closeWishPopup()">×</button>
+    <p id="wish-popup-text"></p>
+    <button class="btn btn-ghost" onclick="closeWishPopup()">إغلاق</button>
+  </div>
+</div>
+
+<!-- Write wish modal -->
+<div id="note-modal">
+  <div class="note-box glass">
+    <button class="close-x" onclick="closeNoteModal()">×</button>
+    <h3>أمنيتك الصغيرة</h3>
+    <textarea id="note-textarea" placeholder="اكتبي هنا أي شيء يخطر ببالك..."></textarea>
+    <div class="note-actions">
+      <button class="btn" onclick="saveWishNote()">احتفظي بها هنا</button>
+      <button class="btn btn-ghost" onclick="closeNoteModal()">إغلاق</button>
+    </div>
+    <div class="note-saved" id="note-saved">تم الحفظ محليًا في هذه الصفحة فقط 💗</div>
+  </div>
+</div>
+
+<script>
+  const shortPhrases = [
+    "وجودك غيّر شكل أيامي.","ابتسامتك أهدأ بداية أعرفها ليوم.","لو كان للراحة اسم، لكان اسمك.",
+    "صرت أكتب لكِ وحدكِ، لا لأحد سواكِ.","كل رسالة منكِ تترك أثرًا يطول.","يكفيني أنكِ موجودة لأشعر أن يومي بخير.",
+    "صوتك يهدّئ أشياء كثيرة بداخلي.","كسوفك اللطيف يجعلني أبتسم دون أن أقصد.","أنتِ أول من أفكر في مشاركته كل شيء.",
+    "مجرد رؤية اسمك يبدّل مزاجي كله.","أشعر بالأمان حين أتحدث معكِ.","صرت أنتظر رسالتك أكثر مما أنتظر أي شيء.",
+    "الحب الحقيقي يبدأ بالراحة، وأنتِ راحتي.","معكِ، الأيام تصير أخف.","لم أعد أنتظر الإشعارات، بل أنتظرك أنتِ.",
+    "أنتِ أجمل صدفة مرّت في حياتي.","اهتمامك جعلني أشعر أني وجدت مكاني أخيرًا.","كل تلميح كتبتِه كنت أفهمه أكثر مما تتخيلين.",
+    "حياؤك حين تضحكين أجمل ما رأيت.","أصبحتِ أول فكرة في صباحي.","لو سألوني عن الطمأنينة لوصفتك أنتِ.",
+    "لا أعرف متى بالضبط، لكنك صرتِ عادتي الجميلة.","أشتاق لكِ حتى في اللحظات التي نتحدث فيها.","كل كلمة أكتبها تمر بكِ أولًا.",
+    "وجودك يجعل الضجيج من حولي أهدأ.","أحب الطريقة التي تجعلينني بها أشعر بأني مسموع.","معكِ لا أشعر أني أتكلف شيئًا.",
+    "أنتِ السبب الذي أريده لكل ابتسامة عندي.","حتى صمتك معي مريح.","صرت أقيس جمال يومي بعدد المرات التي فكرت فيكِ.",
+    "لستِ مجرد اسم في محادثة، أنتِ حضور كامل في يومي.","تعبك يهمني أكثر مما أظهر أحيانًا.","أثق أن ما بيننا بدأ صادقًا وسيبقى كذلك.",
+    "لطفك معي جعلني ألين في أماكن كثيرة.","أحب أنك تفهمينني حتى حين لا أشرح.","بجانبك، لا داعي لأتظاهر بأني بخير حين لست كذلك.",
+    "أنتِ المكان الذي أهرب إليه من زحمة يومي.","حتى الرسائل القصيرة منكِ تكفي لتُسعدني.","أحب اهتمامك الهادئ الذي لا يفرض نفسه.",
+    "معك، الوقت يمر دون أن أشعر.","أنتِ أول من جعل الحياء يبدو جميلًا في نظري.","صرت أنتبه لتفاصيل صغيرة فيكِ لم أكن أنتبه لها في أحد.",
+    "كل مرة تسألينني كيف حالي، تشعرينني أني مهم.","أحب أن أكون سبب ابتسامتك ولو مرة في اليوم.","أنتِ الفكرة التي أعود إليها كلما تشتت ذهني.",
+    "لطفك ليس ضعفًا، بل قوة هادئة أحترمها فيكِ.","أشعر أني أكثر صدقًا حين أتحدث معكِ.","كل رسالة منا بدأت بتلميح، وانتهت بابتسامة.",
+    "معكِ، أشعر أني لست وحدي حتى في أصعب الأيام.","أنتِ سبب أشياء جميلة كثيرة تغيرت فيّ.","أحب أنكِ لا تحتاجين أن تتكلمي كثيرًا لأفهمك.",
+    "كل مرة أراكِ متعبة أتمنى لو أستطيع أن أحمل عنكِ شيئًا.","صرتِ الشخص الذي أفكر فيه قبل أن أنام.","أحب هدوءك الذي يشبه بيتًا آمنًا.",
+    "أنتِ لا تحتاجين أن تثبتي شيئًا لأهتم بكِ.","كل تفصيلة فيك صارت مألوفة وغالية.","معكِ تعلمت أن الحب يبدأ صغيرًا وهادئًا.",
+    "أنتِ السطر الذي أعيد قراءته كل مرة.","أحب أنكِ تسمعينني دون أن تحكمي عليّ.","صرت أرى نفسي أفضل حين أكون بجانبك.",
+    "أنتِ لست مجرد شخص عابر، أنتِ فصل كامل بدأ يُكتب.","حتى غيابك القصير يترك فراغًا أشعر به.","أحب أن أشاركك أشياء صغيرة لا تعني أحدًا غيرنا.",
+    "معكِ تعلمت معنى أن أنتظر بصدر رحب.","أنتِ السبب الذي يجعلني أفتح الهاتف بابتسامة.","حين تضحكين، أشعر أني فعلت شيئًا صحيحًا.",
+    "أحب أنكِ صريحة معي حتى في أصعب الكلام.","صرتِ جزءًا من روتيني اليومي بشكل جميل.","أنتِ الشخص الذي أريد أن يعرف كل تفاصيل يومي.",
+    "معكِ، لا أخاف أن أكون كما أنا فعلًا.","أحب أن أراكِ سعيدة أكثر من أي شيء آخر.","صرت أومن أن أجمل القصص تبدأ من تلميح بسيط، مثلنا."
+  ];
+
+  const poems = [
+    {title:"تلميح", body:"كانت البداية كلمة عابرة بين سطور،\nوردٍّ بسيط ظننته من قبيل المجاملة.\nلم أدرِ أنكِ فهمتِ ما لم أقله،\nوأن قلبك كان يقرأ ما بين الحروف بهدوء.\nهكذا تبدأ القصص الصادقة،\nلا بصوت عالٍ، بل بابتسامة خفية\nيعرفها اثنان فقط."},
+    {title:"راحة", body:"لستِ ضجيجًا أبحث عنه،\nبل سكونًا أستريح إليه.\nمعكِ، لا أحتاج أن أثبت شيئًا،\nولا أن أتكلف حديثًا لا أعنيه.\nأنتِ المكان الذي أضع فيه تعبي،\nفأجده أخف حين أرحل عنه."},
+    {title:"حنين", body:"أشتاق إليكِ حتى في اللحظات التي أراكِ فيها،\nكأن القلب لا يكتفي أبدًا.\nيمر اليوم، وتبقى فكرتك معلّقة في آخره،\nكأنها الجملة التي لم أنتهِ من كتابتها بعد."},
+    {title:"اشتياق هادئ", body:"لا أشتاق بصخب،\nبل بنظرة إلى الهاتف كل حين،\nوابتسامة تظهر حين يومض اسمك.\nاشتياقي إليكِ لا يصرخ،\nلكنه يملأ الصمت من حولي."},
+    {title:"أمان", body:"معكِ، لا أخشى أن أكون صادقًا،\nولا أن أظهر ضعفي كما هو.\nأنتِ المكان الذي لا يُحاسبني على تعبي،\nبل يجلس بجانبه بهدوء."},
+    {title:"احتواء", body:"لا أطلب منكِ أن تحلّي كل شيء،\nيكفيني أن تسمعيني.\nاحتواؤك ليس كلمات كبيرة،\nبل حضورك حين أحتاجه فقط."},
+    {title:"ابتسامة", body:"ابتسامتك تفعل بي أشياء لا أفهمها تمامًا،\nكأنها مفتاح صغير ليوم كامل.\nحين تبتسمين، أشعر أني نجحت في شيء ما،\nحتى وإن لم أفعل شيئًا."},
+    {title:"دفء", body:"لست نارًا تحرق،\nبل دفئًا يتسلل ببطء.\nمعكِ، الشتاء أقل قسوة،\nوالأيام الباردة تجد مكانًا تستريح فيه."},
+    {title:"صدفة", body:"لم أكن أبحث عنكِ حين وجدتك،\nجئتِ كما تأتي الصدف الجميلة،\nبلا سابق إنذار، بلا خطة.\nوبقيتِ، ليس بالصدفة هذه المرة،\nبل باختيار متجدد كل يوم."},
+    {title:"كلمات لم تُقل", body:"هناك كلمات أحتفظ بها،\nليس خوفًا، بل انتظارًا للحظة تليق بها.\nحين تصلك يومًا، ستعرفين أنها كانت هناك منذ البداية،\nمنذ أول تلميح."},
+    {title:"مكان", body:"بحثتُ طويلًا عن مكان أشبه بالبيت،\nفوجدتك.\nلا جدران هناك ولا سقف،\nفقط صوتك حين يهدأ، وحضورك حين يقترب."},
+    {title:"البداية الحقيقية", body:"لم تبدأ القصة من كلمة حب،\nبل من اهتمام صغير لم يُقل باسمه.\nومن يومها، كل ما أكتبه\nيمر من عندك أولًا."}
+  ];
+
+  const letters = [
+    {title:"الرسالة الأولى: عن التلميح الأول", body:"ما زلت أتذكر أول مرة شعرت فيها أنكِ فهمتِ أكثر مما قلته. لم تكن كلمات كبيرة، كان مجرد رد بسيط على بوست عابر، لكنه حمل شيئًا لم أعتد أن أجده. من يومها بدأت أنتبه لكِ أكثر، وبدأت ألاحظ أن كل تلميح مني كان يصل، وكل تلميح منكِ كنت أفهمه دون أن أسأل. لم نكن نعرف وقتها أننا نبني شيئًا، لكننا كنا نفعل."},
+    {title:"عن الحياء الذي أحببته فيكِ", body:"حياؤك حين تضحكين، أو حين تتجنبين سؤالًا مباشرًا، هو من أجمل الأشياء التي لاحظتها فيكِ. لا أعرف كيف يجعل شخص ما الحياء يبدو بهذا الجمال، لكنكِ فعلتِ. أحب أنكِ لا تحتاجين أن تكوني صاخبة لتلفتي انتباهي، فقط كوني كما أنتِ."},
+    {title:"لماذا صرتِ الأولى", body:"لم أعد أكتب لأحد كما أكتب لكِ. كل فكرة تخطر ببالي، أول من أفكر في مشاركتها هي أنتِ. لست أول شخص أتحدث معه، لكنكِ أول شخص أريد أن يعرف كل التفاصيل، الصغيرة منها قبل الكبيرة."},
+    {title:"عن انتظار رسالتك", body:"صرت ألاحظ نفسي أفتح الهاتف بلا سبب، فقط على أمل أن أجد رسالة منك. ليس لأني بحاجة لشيء، بل لأن رسالتك تجعل الوقت يمر بشكل أجمل. انتظار رسالتك صار جزءًا هادئًا من يومي، لا أشتكي منه أبدًا."},
+    {title:"عن صوتك", body:"صوتك يفعل شيئًا غريبًا بي، يهدّئ أشياء كنت أظنها لن تهدأ بسهولة. حين تتحدثين، أنسى ما كنت أفكر فيه قبل قليل، وأركز فقط على الطريقة التي تقولين بها الأشياء."},
+    {title:"عن أول ابتسامة تسببتِ فيها", body:"لا أذكر بالضبط متى ابتسمت لأول مرة بسببك، لكني أذكر الشعور. كان شعورًا بسيطًا وصادقًا، كأن شيئًا خفيفًا لمس القلب. ومن يومها، صرت السبب الذي أريده لكل ابتسامة عندي."},
+    {title:"عن الراحة معك", body:"هناك أشخاص تتعب معهم رغم حبك لهم، وهناك من ترتاح معهم دون مجهود. أنتِ من النوع الثاني. لا أحتاج أن أتكلف حديثًا، ولا أن أختار كلماتي بعناية زائدة، فقط أكون كما أنا، وأشعر أن هذا يكفي."},
+    {title:"عن الاطمئنان عليك", body:"صرت أسأل عنكِ ليس من باب المجاملة، بل لأني فعلًا أريد أن أعرف كيف يومك. تعبك يهمني، وسعادتك تهمني أكثر. أتمنى أن أكون سببًا في راحتك ولو قليلًا كل يوم."},
+    {title:"عن الحنين إليكِ", body:"أشتاق لكِ بطريقة غريبة، حتى في الأيام التي نتحدث فيها كثيرًا. كأن القلب لا يشبع من حضورك مهما طال الحديث. هذا الحنين ليس قلقًا، بل شعورًا هادئًا بأنكِ صرتِ جزءًا مهمًا مني."},
+    {title:"عن أول مرة شعرت فيها بالأمان", body:"الأمان معكِ لم يأتِ فجأة، بل بنى نفسه رويدًا رويدًا، من كل رسالة صادقة، ومن كل مرة استمعتِ فيها لي دون أن تحكمي. اليوم أشعر أني أستطيع أن أكون صادقًا معكِ في كل شيء، وهذا شعور لا يُقدَّر بثمن."},
+    {title:"عن الابتسامة التي ترسمينها", body:"لديكِ طريقة تجعلينني أبتسم دون أن أشعر، فقط بجملة بسيطة أو رد سريع. لا أعرف إن كنتِ تدركين تأثيرك، لكني أريدك أن تعرفي أن ابتسامتي هذه الأيام كثيرًا ما تكون بسببك."},
+    {title:"عن كوني أول شخص أشاركه كل شيء", body:"صرتِ الشخص الذي أفكر فيه أولًا حين يحدث شيء، جيدًا كان أو صعبًا. هذا تغيّر لم أخطط له، لكنه حدث تدريجيًا، وأنا سعيد أنه حدث معكِ تحديدًا."},
+    {title:"عن الأثر الذي تتركه رسائلك", body:"كل رسالة منك، مهما كانت قصيرة، تترك أثرًا يبقى معي لوقت طويل. لا أعرف كيف تفعلين ذلك بكلمات بسيطة، لكنها تصل، وتبقى، وتجعلني أعيد قراءتها أكثر من مرة."},
+    {title:"عن الحب الذي يبدأ بالراحة", body:"أؤمن أن الحب الحقيقي لا يبدأ بالانبهار، بل بالراحة. وأنتِ منحتيني هذه الراحة منذ البداية، دون أن تحاولي، فقط بكونك كما أنتِ."},
+    {title:"عن الأيام الأخف بوجودك", body:"الأيام الصعبة تصير أخف حين أعرف أن هناك رسالة منتظرة منك، أو حديثًا قصيرًا سنتبادله. وجودك لا يزيل التعب، لكنه يجعله محتملًا أكثر."},
+    {title:"عن اسمك الذي يغيّر مزاجي", body:"مجرد رؤية اسمك يظهر على الشاشة تكفي لتغيير مزاجي كله، حتى لو كنت في يوم متعب. هذا التأثير البسيط، أحبه فيكِ، وأحب أني صرت أنتظره."},
+    {title:"عن مكاني الذي وجدته أخيرًا", body:"بحثت طويلًا دون أن أعرف عمّ أبحث بالضبط، حتى جاء اهتمامك وجعلني أشعر أني وجدت مكاني. ليس مكانًا جغرافيًا، بل شعورًا بالانتماء لم أعتد أن أجده بسهولة."},
+    {title:"عن التلميحات التي تحولت لحديث", body:"كل شيء بدأ بتلميحات صغيرة، ثم صار حديثًا كاملًا مليئًا بالحياء والابتسامات. أحب أن أتذكر كيف بدأنا، لأنه يذكّرني أن أجمل القصص لا تحتاج ضجة كبيرة لتبدأ."},
+    {title:"عن كل تفصيلة صغيرة فيكِ", body:"لاحظت أشياء صغيرة فيكِ لم أكن أنتبه لتفاصيل كهذه من قبل، طريقة كتابتك، الوقت الذي تردين فيه، حتى طريقة اعتذارك حين تتأخرين. كل هذا صار مألوفًا وغاليًا عندي."},
+    {title:"عن سعادتك التي أريدها كل يوم", body:"أتمنى أن أكون سببًا في سعادتك كل يوم، ولو بشيء بسيط. لا أطلب أن أكون كل شيء في حياتك، فقط أريد أن أكون جزءًا يجعلها أجمل قليلًا."},
+    {title:"عن كوني صادقًا معكِ دائمًا", body:"وعدت نفسي أن أكون صادقًا معك دائمًا، حتى حين يكون الصدق صعبًا. أظن أن هذا أقل ما أستطيع تقديمه لشخص جعلني أشعر بالأمان كما فعلتِ."},
+    {title:"عن الفراغ حين تغيبين", body:"حتى غيابك القصير يترك فراغًا صغيرًا أشعر به. لا أبالغ حين أقول ذلك، فقط أصف شعورًا حقيقيًا اعتدته منذ صرتِ جزءًا من يومي."},
+    {title:"عن أول مرة أدركت فيها أني أهتم", body:"لم يكن هناك لحظة واحدة أدركت فيها فجأة أني أهتم بكِ، بل كانت مجموعة لحظات صغيرة تراكمت، حتى وجدت نفسي أفكر فيكِ أكثر مما توقعت."},
+    {title:"عن المستقبل الذي أتمناه لنا", body:"لا أعرف كيف ستكون الأيام القادمة، لكني أعرف أني أريدك جزءًا منها. أريد أن أستمر في الكتابة إليك، وأن تستمري في فهم ما بين السطور كما اعتدتِ."}
+  ];
+
+  const journalMessages = [
+    "أحيانًا أكتب بلا سبب، فقط لأشعر أنكِ قريبة.","اليوم فكرت فيكِ أكثر من المعتاد، ولم أمانع ذلك.",
+    "لو كانت الأيام تُقاس بابتساماتك، لكانت أيامي كلها جميلة.","أحب اللحظة التي أقرأ فيها رسالتك للمرة الثانية.",
+    "صمتك أحيانًا يقول أكثر مما تتخيلين.","كل مرة تسألينني عن حالي، أشعر أني مهم فعلًا.",
+    "أشتاق لصوتك حتى وأنا أسمعه للتو.","لا شيء يعادل شعور الاطمئنان حين أعرف أنكِ بخير.",
+    "أفكر فيكِ في أوقات غريبة، كمنتصف العمل أو قبل النوم مباشرة.","حتى الرسائل القصيرة منكِ تكفي لتصنع يومًا أفضل.",
+    "أحب أنكِ لا تتظاهرين بشيء لست عليه معي.","كل مرة أراكِ متعبة، أتمنى لو أستطيع أن أخفف عنكِ قليلًا.",
+    "أنتِ من الأشخاص القلائل الذين أشعر معهم أني كما أنا فعلًا.","صرت أميز طريقة كتابتك حتى دون أن أرى اسمك.",
+    "أحيانًا أضحك وحدي وأنا أتذكر شيئًا قلتِه.","اشتقت لكِ اليوم بطريقة لم أفهمها تمامًا.","معكِ، حتى الأيام الرمادية تصير أقل قتامة.",
+    "أحب أن أكون أول من يهنئك بشيء جميل حدث لكِ.","لا أحتاج مناسبة لأخبرك أنكِ تهمينني.","كل مرة تختفين قليلًا، ألاحظ ذلك أكثر مما تتخيلين.",
+    "أحب طريقتك في الاعتذار حين تتأخرين بالرد، فيها لطف زائد.","صرت أنتظر الليل لأننا نتحدث أكثر فيه.","أشعر بالفخر حين تشاركينني إنجازًا صغيرًا لكِ.",
+    "لو استطعت أن أهديك يومًا خاليًا من التعب، لفعلت.","أحب أنكِ تتذكرين تفاصيل صغيرة قلتها لكِ من قبل.","كل مرة أرى اسمك، أشعر بابتسامة تتسلل دون استئذان.",
+    "أحيانًا أعيد قراءة رسائلك القديمة، ولا أمل من ذلك.","معكِ تعلمت أن الاهتمام لا يحتاج كلمات كبيرة.","أشتاق للحظة الهدوء التي تأتي بعد حديثنا الطويل.",
+    "صرتِ أول من أفكر في مشاركته الأخبار الجيدة.","أحب أنكِ صبورة معي حتى حين أكون مشغولًا.","حتى في زحمة يومي، تجدين طريقك لتكوني حاضرة في بالي.",
+    "أشعر بالامتنان لوجودك بطريقة لا أعرف كيف أعبر عنها دائمًا.","أحب أن أراكِ تكتبين بحماس عن شيء تحبينه.","معكِ، تعلمت أن أصغي أكثر مما أتحدث.",
+    "كل مرة تطمئنيني على نفسك، أشعر براحة حقيقية.","أحيانًا أكتب جملة ثم أمسحها لأنها تبدو زائدة، ثم أكتبها لاحقًا لأنها كانت صادقة.","أنتِ سبب هدوء داخلي لم أعتد عليه بسهولة.",
+    "أحب أنكِ تسألينني عن أشياء صغيرة تخصني.","معكِ، صرت أهتم بتفاصيل لم أكن ألتفت لها من قبل.","أشتاق للطريقة التي تقولين بها 'تصبح على خير'.",
+    "كل يوم أكتشف فيه شيئًا جديدًا عنكِ، يوم جميل.","أحب أن أكون مصدر راحة لكِ كما أنتِ لي.","صرتِ جزءًا من طقوسي اليومية الصغيرة.",
+    "أشعر بالامتنان كل مرة أتذكر كيف بدأت قصتنا.","أحب أنكِ تتركين لي مساحة لأكون صادقًا حتى في ضعفي.","معكِ، الوقت يمر بلطف غريب.",
+    "أحيانًا أبتسم فقط لأني تذكرتك فجأة.","أشتاق لكِ حتى في اللحظات التي أظن أني مشغول فيها عنكِ.","كل رسالة منكِ أحتفظ بها في مكان خاص من ذاكرتي."
+  ];
+
+  const wishStarMessages = [
+    "تمنيت لكِ يومًا هادئًا مثل قلبك.","نجمة صغيرة تهمس: أنتِ محبوبة أكثر مما تتخيلين.",
+    "تمنيت أن تبقي بخير دائمًا، حتى حين لا أستطيع أن أطمئن عليكِ.","هذه النجمة تحمل أمنية أن تضحكي كثيرًا اليوم.",
+    "تمنيت لو أستطيع أن أهديك كل النجوم التي أراها.","نجمة تهمس أن حضورك يجعل الليالي أجمل.",
+    "تمنيت أن تشعري بالأمان دائمًا، معي أو بعيدًا عني.","هذه النجمة تحمل امتناني لأنكِ موجودة في حياتي.",
+    "تمنيت أن يكون يومك أخف من الأمس.","نجمة صغيرة تقول: اشتقت لكِ.",
+    "تمنيت لو تعرفين كم مرة فكرت فيكِ اليوم.","هذه النجمة تحمل أمنية أن تنامي مطمئنة الليلة.",
+    "تمنيت أن أكون سببًا في سعادتك أكثر من أي شيء آخر.","نجمة تهمس: ابتسامتك أجمل من كل النجوم هنا.",
+    "تمنيت لو أستطيع أن أحمل عنكِ تعب يومك.","هذه النجمة تحمل شكرًا لأنكِ تسمعينني دائمًا.",
+    "تمنيت أن يبقى ما بيننا صادقًا كما بدأ.","نجمة صغيرة تقول: أنتِ أجمل صدفة مرت بي.",
+    "تمنيت أن تشعري بقيمتك كما أراها أنا.","هذه النجمة تحمل أمنية أن نبقى كما نحن، صادقين وهادئين.",
+    "تمنيت لو تعرفين أن رسالتك القصيرة غيّرت يومي.","نجمة تهمس: حياؤك حين تضحكين لا يُنسى.",
+    "تمنيت أن تكوني دائمًا محاطة بأشخاص يقدّرونك.","هذه النجمة تحمل أمنية أن يكون غدك أجمل من اليوم.",
+    "تمنيت لو أستطيع أن أخبرك كم أنتِ مهمة دون أن أبدو مبالغًا.","نجمة صغيرة تقول: صوتك يهدئني أكثر مما تتخيلين.",
+    "تمنيت أن تبقي كما أنتِ، صادقة ولطيفة.","هذه النجمة تحمل امتنانًا لأنكِ تفهمينني دون أن أشرح كثيرًا.",
+    "تمنيت لو الوقت يمر أبطأ حين نتحدث.","نجمة تهمس: أنتِ أول شخص أفكر فيه صباحًا.",
+    "تمنيت أن تعرفي أن اهتمامك بي لا يمر مرور الكرام.","هذه النجمة تحمل أمنية أن نبقى نفهم بعضنا كما فعلنا من أول تلميح.",
+    "تمنيت لو أقدر أزرع لكِ يومًا كاملًا من الفرح.","نجمة صغيرة تقول: معكِ أشعر أني أفضل نسخة مني.",
+    "تمنيت أن تبقي مطمئنة، فأنا هنا.","هذه النجمة تحمل شكرًا لأنكِ صبرتِ عليّ في أيامي الصعبة.",
+    "تمنيت أن يكون حبنا هادئًا كما بدأ، بلا ضجيج.","نجمة تهمس: أنتِ المكان الذي أعود إليه دائمًا.",
+    "تمنيت لو تعرفين كم أنتِ غالية دون أن تشعري بالحرج.","هذه النجمة تحمل أمنية أن تبقي مبتسمة طوال اليوم.",
+    "تمنيت أن نظل نكتب لبعضنا كما بدأنا، ببساطة وصدق.","نجمة صغيرة تقول: أنتِ سبب كل شيء جميل تغيّر فيّ."
+  ];
+
+  // Intro
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('intro').classList.add('hidden');
+    }, 2600);
+  });
+
+  // Ripple effect
+  function rippleEffect(e) {
+    const btn = e.currentTarget;
+    const circle = document.createElement('span');
+    const rect = btn.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    circle.style.width = circle.style.height = size + 'px';
+    circle.style.left = (e.clientX - rect.left - size/2) + 'px';
+    circle.style.top = (e.clientY - rect.top - size/2) + 'px';
+    circle.classList.add('ripple');
+    btn.style.position = 'relative';
+    btn.appendChild(circle);
+    setTimeout(() => circle.remove(), 650);
+  }
+  document.querySelectorAll('.btn').forEach(b => {
+    if (!b.hasAttribute('onclick')) b.addEventListener('click', rippleEffect);
+  });
+
+  // Typewriter
+  let twIndex = 0;
+  const twEl = document.getElementById('typewriter-text');
+  const counterEl = document.getElementById('msg-counter');
+  function typeMessage() {
+    const msg = shortPhrases[twIndex % shortPhrases.length];
+    twEl.innerHTML = '';
+    let i = 0;
+    const cursor = '<span class="cursor">|</span>';
+    function step() {
+      if(i <= msg.length) {
+        twEl.innerHTML = msg.slice(0,i) + cursor;
+        i++;
+        setTimeout(step, 45);
+      } else {
+        counterEl.textContent = `${(twIndex % shortPhrases.length)+1} / ${shortPhrases.length}`;
+        setTimeout(() => { twIndex++; typeMessage(); }, 2600);
+      }
+    }
+    step();
+  }
+  typeMessage();
+
+  // Poems
+  const poemGrid = document.getElementById('poem-grid');
+  poems.forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'poem-card glass';
+    card.innerHTML = `<h3>${p.title}</h3><p>${p.body}</p><div class="toggle">اقرئي المزيد ▾</div>`;
+    card.addEventListener('click', () => {
+      card.classList.toggle('open');
+      card.querySelector('.toggle').textContent = card.classList.contains('open') ? 'إخفاء ▴' : 'اقرئي المزيد ▾';
+    });
+    poemGrid.appendChild(card);
+  });
+
+  // Letters
+  const letterNav = document.getElementById('letter-nav');
+  const letterBox = document.getElementById('letter-box');
+  function showLetter(i) {
+    letterBox.innerHTML = `<h3>${letters[i].title}</h3><p>${letters[i].body}</p>`;
+    [...letterNav.children].forEach((c,idx) => c.classList.toggle('active', idx===i));
+  }
+  letters.forEach((l,i) => {
+    const b = document.createElement('button');
+    b.textContent = i+1;
+    b.addEventListener('click', () => showLetter(i));
+    letterNav.appendChild(b);
+  });
+  showLetter(0);
+
+  // Journal
+  let journalUsed = [];
+  function newJournalEntry() {
+    if(journalUsed.length === journalMessages.length) journalUsed = [];
+    let idx;
+    do { idx = Math.floor(Math.random()*journalMessages.length); } while(journalUsed.includes(idx));
+    journalUsed.push(idx);
+    document.getElementById('journal-text').textContent = journalMessages[idx];
+  }
+
+  // Counter animation
+  function animateCounter(el, target, duration) {
+    let start = 0;
+    const stepTime = Math.max(Math.floor(duration/target), 8);
+    const timer = setInterval(() => {
+      start++;
+      el.textContent = start.toLocaleString('ar-EG');
+      if(start >= target) clearInterval(timer);
+    }, stepTime);
+  }
+  const counterSection = document.getElementById('counter');
+  let counterStarted = false;
+  const counterObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting && !counterStarted) {
+        counterStarted = true;
+        animateCounter(document.getElementById('c-beats'), 18342, 2000);
+        animateCounter(document.getElementById('c-think'), 4127, 2000);
+        animateCounter(document.getElementById('c-miss'), 986, 2000);
+      }
+    });
+  }, {threshold:0.4});
+  counterObserver.observe(counterSection);
+
+  // Wish stars
+  const starsField = document.getElementById('stars-field');
+  const usedStarPositions = [];
+  function randPos() {
+    let x,y,ok;
+    do {
+      x = Math.random()*90+2; y = Math.random()*90+2; ok = true;
+      for(const p of usedStarPositions) {
+        if(Math.abs(p.x-x)<12 && Math.abs(p.y-y)<18) ok = false;
+      }
+    } while(!ok);
+    usedStarPositions.push({x,y});
+    return {x,y};
+  }
+  const starCount = 26;
+  let usedWishIdx = [];
+  for(let i=0; i<starCount; i++) {
+    const pos = randPos();
+    const star = document.createElement('button');
+    star.className = 'wish-star';
+    star.textContent = '✦';
+    star.style.left = pos.x + '%';
+    star.style.top = pos.y + '%';
+    star.style.animationDelay = (Math.random()*3)+'s';
+    star.addEventListener('click', () => {
+      if(usedWishIdx.length === wishStarMessages.length) usedWishIdx = [];
+      let idx;
+      do { idx = Math.floor(Math.random()*wishStarMessages.length); } while(usedWishIdx.includes(idx));
+      usedWishIdx.push(idx);
+      document.getElementById('wish-popup-text').textContent = wishStarMessages[idx];
+      document.getElementById('wish-popup').classList.add('show');
+    });
+    starsField.appendChild(star);
+  }
+  window.closeWishPopup = () => document.getElementById('wish-popup').classList.remove('show');
+
+  // Heart garden
+  const gardenField = document.getElementById('garden-field');
+  let lastGardenHeart = 0;
+  gardenField.addEventListener('mousemove', (e) => {
+    const now = Date.now();
+    if(now - lastGardenHeart < 90) return;
+    lastGardenHeart = now;
+    const rect = gardenField.getBoundingClientRect();
+    const heart = document.createElement('span');
+    heart.className = 'garden-heart';
+    heart.textContent = ['💗','💕','🌸','✨'][Math.floor(Math.random()*4)];
+    heart.style.left = (e.clientX - rect.left) + 'px';
+    heart.style.top = (e.clientY - rect.top) + 'px';
+    gardenField.appendChild(heart);
+    requestAnimationFrame(() => {
+      heart.style.transform = `translateY(-${20+Math.random()*30}px) scale(${0.8+Math.random()*0.6})`;
+      heart.style.opacity = '0';
+    });
+    setTimeout(() => heart.remove(), 650);
+  });
+  gardenField.addEventListener('touchmove', (e) => {
+    const t = e.touches[0];
+    const rect = gardenField.getBoundingClientRect();
+    const heart = document.createElement('span');
+    heart.className = 'garden-heart';
+    heart.textContent = '💗';
+    heart.style.left = (t.clientX - rect.left) + 'px';
+    heart.style.top = (t.clientY - rect.top) + 'px';
+    gardenField.appendChild(heart);
+    setTimeout(() => heart.remove(), 650);
+  }, {passive: true});
+
+  // Wish note modal
+  window.openNoteModal = () => document.getElementById('note-modal').classList.add('show');
+  window.closeNoteModal = () => {
+    document.getElementById('note-modal').classList.remove('show');
+    document.getElementById('note-saved').style.display = 'none';
+  };
+  window.saveWishNote = () => {
+    const ta = document.getElementById('note-textarea');
+    if(ta.value.trim() === '') return;
+    window.__savedWish = ta.value;
+    document.getElementById('note-saved').style.display = 'block';
+  };
+
+  // Music toggle (monon.mp4)
+  const music = document.getElementById('bg-music');
+  const musicBtn = document.getElementById('music-toggle');
+  let playing = false;
+  musicBtn.addEventListener('click', () => {
+    if(!playing) {
+      music.play().catch(() => {});
+      musicBtn.textContent = '⏸';
+    } else {
+      music.pause();
+      musicBtn.textContent = '🎵';
+    }
+    playing = !playing;
+  });
+
+  // Back to top
+  document.getElementById('back-top').addEventListener('click', () => {
+    document.getElementById('hero').scrollIntoView({behavior:'smooth'});
+  });
+
+  // Mouse trail
+  let trailThrottle = 0;
+  document.addEventListener('mousemove', (e) => {
+    const now = Date.now();
+    if(now - trailThrottle < 60) return;
+    trailThrottle = now;
+    const h = document.createElement('div');
+    h.className = 'mouse-trail-heart';
+    h.textContent = '·';
+    h.style.left = e.clientX + 'px';
+    h.style.top = e.clientY + 'px';
+    h.style.color = Math.random() > 0.5 ? '#e6a6c6' : '#e7c88f';
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 1000);
+  });
+
+  // Floating items
+  const floatSymbols = ['💗','🌹','✨','💫'];
+  function spawnFloatItem() {
+    const item = document.createElement('div');
+    item.className = 'float-item';
+    item.textContent = floatSymbols[Math.floor(Math.random()*floatSymbols.length)];
+    item.style.left = Math.random()*100 + 'vw';
+    item.style.fontSize = (12 + Math.random()*16) + 'px';
+    item.style.setProperty('--drift', (Math.random()*80-40)+'px');
+    item.style.animationDuration = (8 + Math.random()*8) + 's';
+    document.body.appendChild(item);
+    setTimeout(() => item.remove(), 17000);
+  }
+  setInterval(spawnFloatItem, 1400);
+
+  // Night sky canvas
+  const skyCanvas = document.getElementById('sky-canvas');
+  const skyCtx = skyCanvas.getContext('2d');
+  let stars = [];
+  function resizeSky() {
+    skyCanvas.width = window.innerWidth;
+    skyCanvas.height = document.body.scrollHeight;
+    stars = [];
+    const count = Math.floor((skyCanvas.width*skyCanvas.height)/9000);
+    for(let i=0; i<count; i++) {
+      stars.push({
+        x: Math.random()*skyCanvas.width,
+        y: Math.random()*skyCanvas.height,
+        r: Math.random()*1.4+0.3,
+        phase: Math.random()*Math.PI*2,
+        speed: 0.01+Math.random()*0.02
+      });
+    }
+  }
+  function drawSky() {
+    skyCtx.clearRect(0,0,skyCanvas.width, skyCanvas.height);
+    for(const s of stars) {
+      s.phase += s.speed;
+      const alpha = 0.4 + Math.sin(s.phase)*0.4;
+      skyCtx.beginPath();
+      skyCtx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+      skyCtx.fillStyle = `rgba(248,242,239,${Math.max(0,alpha)})`;
+      skyCtx.fill();
+    }
+    requestAnimationFrame(drawSky);
+  }
+  resizeSky();
+  drawSky();
+  window.addEventListener('resize', resizeSky);
+
+  // Particle layer
+  const pCanvas = document.getElementById('particle-canvas');
+  const pCtx = pCanvas.getContext('2d');
+  let particles = [];
+  function resizeParticles() {
+    pCanvas.width = window.innerWidth;
+    pCanvas.height = window.innerHeight;
+  }
+  function initParticles() {
+    particles = [];
+    for(let i=0; i<40; i++) {
+      particles.push({
+        x: Math.random()*pCanvas.width,
+        y: Math.random()*pCanvas.height,
+        r: Math.random()*1.6+0.4,
+        vy: 0.15+Math.random()*0.25,
+        drift: Math.random()*0.4-0.2
+      });
+    }
+  }
+  function drawParticles() {
+    pCtx.clearRect(0,0,pCanvas.width,pCanvas.height);
+    for(const p of particles) {
+      p.y -= p.vy; p.x += p.drift;
+      if(p.y < -5) { p.y = pCanvas.height+5; p.x = Math.random()*pCanvas.width; }
+      pCtx.beginPath();
+      pCtx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      pCtx.fillStyle = 'rgba(231,200,143,0.55)';
+      pCtx.fill();
+    }
+    requestAnimationFrame(drawParticles);
+  }
+  resizeParticles();
+  initParticles();
+  drawParticles();
+  window.addEventListener('resize', () => { resizeParticles(); initParticles(); });
+</script>
+</body>
+</html>
